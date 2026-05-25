@@ -1,0 +1,17 @@
+-- Indices del sistema de torneos.
+
+-- IDX_PARTIDO_FECHA
+CREATE INDEX IDX_PARTIDO_FECHA
+    ON Partido(fecha_hora);
+
+-- IDX_PARTIDO_ESTADO
+CREATE INDEX IDX_PARTIDO_ESTADO
+    ON Partido(estado);
+
+-- IDX_INSCRIPCION_ESTADO
+CREATE INDEX IDX_INSCRIPCION_ESTADO
+    ON Inscripcion(Estado);
+
+-- IDX_PERSONA_APELLIDOS
+CREATE INDEX IDX_PERSONA_APELLIDOS
+    ON Persona(Apellidos);

@@ -1,0 +1,422 @@
+-- Implementación de Paquetes de Actores (ActoresI)
+
+-- PA_ADMINISTRADOR_SISTEMA
+CREATE OR REPLACE PACKAGE BODY PA_ADMINISTRADOR_SISTEMA AS
+
+    PROCEDURE AD_PERSONA (xDNI IN VARCHAR2, xNombres IN VARCHAR2, xApellidos IN VARCHAR2, xFecha_nacimiento IN DATE) IS
+    BEGIN
+        PK_PERSONA.AD_PERSONA(xDNI, xNombres, xApellidos, xFecha_nacimiento);
+    END;
+
+    PROCEDURE MOD_PERSONA (xId_Persona IN NUMBER, xNombres IN VARCHAR2, xApellidos IN VARCHAR2, xFecha_nacimiento IN DATE) IS
+    BEGIN
+        PK_PERSONA.MOD_PERSONA(xId_Persona, xNombres, xApellidos, xFecha_nacimiento);
+    END;
+
+    PROCEDURE ELI_PERSONA (xId_Persona IN NUMBER) IS
+    BEGIN
+        PK_PERSONA.ELI_PERSONA(xId_Persona);
+    END;
+
+    PROCEDURE AD_ORGANIZADOR (xId_Persona IN NUMBER, xCargo IN VARCHAR2) IS
+    BEGIN
+        PK_TORNEO.AD_ORGANIZADOR(xId_Persona, xCargo);
+    END;
+
+    PROCEDURE MOD_ORGANIZADOR (xId_Persona IN NUMBER, xCargo IN VARCHAR2) IS
+    BEGIN
+        PK_TORNEO.MOD_ORGANIZADOR(xId_Persona, xCargo);
+    END;
+
+    PROCEDURE ELI_ORGANIZADOR (xId_Persona IN NUMBER) IS
+    BEGIN
+        PK_TORNEO.ELI_ORGANIZADOR(xId_Persona);
+    END;
+
+    PROCEDURE MOD_ESTADISTICA_EQUIPO (xId_Estadistica IN NUMBER, xPuntos IN NUMBER, xGF IN NUMBER, xGC IN NUMBER, xPG IN NUMBER, xPP IN NUMBER, xPE IN NUMBER) IS
+    BEGIN
+        PK_ESTADISTICA_EQUIPO.MOD_ESTADISTICA_EQUIPO(xId_Estadistica, xPuntos, xGF, xGC, xPG, xPP, xPE);
+    END;
+
+    PROCEDURE CO_PERSONA (xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_PERSONA.CO_PERSONA(xCursor);
+    END;
+
+    PROCEDURE CO_PATROCINADOR (xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_PATROCINADOR.CO_PATROCINADOR(xCursor);
+    END;
+
+    PROCEDURE CO_ESTADISTICA_EQUIPO (xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_ESTADISTICA_EQUIPO.CO_ESTADISTICA_EQUIPO(xCursor);
+    END;
+
+    PROCEDURE CO_TABLA_POSICIONES (xId_Torneo IN NUMBER, xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_ESTADISTICA_EQUIPO.CO_TABLA_POSICIONES(xId_Torneo, xCursor);
+    END;
+
+    PROCEDURE CO_EQUIPOS_INSCRITOS (xId_Torneo IN NUMBER, xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_INSCRIPCION.CO_EQUIPOS_INSCRITOS(xId_Torneo, xCursor);
+    END;
+
+    PROCEDURE CO_JUGADOR_EQUIPO (xId_Equipo IN NUMBER, xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_EQUIPO.CO_JUGADOR_EQUIPO(xId_Equipo, xCursor);
+    END;
+
+END PA_ADMINISTRADOR_SISTEMA;
+/
+
+
+-- PA_ORGANIZADOR_TORNEO
+CREATE OR REPLACE PACKAGE BODY PA_ORGANIZADOR_TORNEO AS
+
+    PROCEDURE AD_TORNEO (xNombre IN VARCHAR2, xTemporada IN VARCHAR2, xFecha_Inicio IN DATE, xFecha_Fin IN DATE) IS
+    BEGIN
+        PK_TORNEO.AD_TORNEO(xNombre, xTemporada, xFecha_Inicio, xFecha_Fin);
+    END;
+
+    PROCEDURE MOD_TORNEO (xId_Torneo IN NUMBER, xNombre IN VARCHAR2, xTemporada IN VARCHAR2, xFecha_Inicio IN DATE, xFecha_Fin IN DATE, xEstado IN VARCHAR2, xId_Organizador IN NUMBER) IS
+    BEGIN
+        PK_TORNEO.MOD_TORNEO(xId_Torneo, xNombre, xTemporada, xFecha_Inicio, xFecha_Fin, xEstado, xId_Organizador);
+    END;
+
+    PROCEDURE ELI_TORNEO (xId_Torneo IN NUMBER, xId_Organizador IN NUMBER) IS
+    BEGIN
+        PK_TORNEO.ELI_TORNEO(xId_Torneo, xId_Organizador);
+    END;
+
+    PROCEDURE AD_FASE (xId_Torneo IN NUMBER, xNombre_fase IN VARCHAR2, xTipo_formato IN VARCHAR2) IS
+    BEGIN
+        PK_TORNEO.AD_FASE(xId_Torneo, xNombre_fase, xTipo_formato);
+    END;
+
+    PROCEDURE MOD_FASE (xId_Torneo IN NUMBER, xNombre_fase IN VARCHAR2, xTipo_formato IN VARCHAR2) IS
+    BEGIN
+        PK_TORNEO.MOD_FASE(xId_Torneo, xNombre_fase, xTipo_formato);
+    END;
+
+    PROCEDURE ELI_FASE (xId_Torneo IN NUMBER, xNombre_fase IN VARCHAR2) IS
+    BEGIN
+        PK_TORNEO.ELI_FASE(xId_Torneo, xNombre_fase);
+    END;
+
+    PROCEDURE MOD_INSCRIPCION_ESTADO (xId_Inscripcion IN NUMBER, xEstado IN VARCHAR2) IS
+    BEGIN
+        PK_INSCRIPCION.MOD_INSCRIPCION_ESTADO(xId_Inscripcion, xEstado);
+    END;
+
+    PROCEDURE ELI_INSCRIPCION (xId_Inscripcion IN NUMBER) IS
+    BEGIN
+        PK_INSCRIPCION.ELI_INSCRIPCION(xId_Inscripcion);
+    END;
+
+    PROCEDURE AD_ESTADIO (xNombre IN VARCHAR2, xCiudad IN VARCHAR2, xDireccion IN VARCHAR2, xCapacidad IN NUMBER, xTipo_cancha IN VARCHAR2) IS
+    BEGIN
+        PK_ESTADIO.AD_ESTADIO(xNombre, xCiudad, xDireccion, xCapacidad, xTipo_cancha);
+    END;
+
+    PROCEDURE MOD_ESTADIO (xId_Estadio IN NUMBER, xNombre IN VARCHAR2, xDireccion IN VARCHAR2, xCapacidad IN NUMBER, xTipo_cancha IN VARCHAR2) IS -- Parámetro Añadido
+    BEGIN
+        PK_ESTADIO.MOD_ESTADIO(xId_Estadio, xNombre, xDireccion, xCapacidad, xTipo_cancha);
+    END;
+
+    PROCEDURE ELI_ESTADIO (xId_Estadio IN NUMBER) IS
+    BEGIN
+        PK_ESTADIO.ELI_ESTADIO(xId_Estadio);
+    END;
+
+    PROCEDURE AD_PARTIDO (xId_Torneo IN NUMBER, xNombre_fase IN VARCHAR2, xId_Estadio IN NUMBER, xId_EquipoLocal IN NUMBER, xId_EquipoVisitante IN NUMBER, xFecha_hora IN DATE) IS
+    BEGIN
+        PK_PARTIDO.AD_PARTIDO(xId_Torneo, xNombre_fase, xId_Estadio, xId_EquipoLocal, xId_EquipoVisitante, xFecha_hora);
+    END;
+
+    PROCEDURE AD_ARBITRO (xId_Persona IN NUMBER, xCategoria IN VARCHAR2) IS
+    BEGIN
+        PK_PARTIDO.AD_ARBITRO(xId_Persona, xCategoria);
+    END;
+
+    PROCEDURE AD_ARBITRO_PARTIDO (xId_Persona IN NUMBER, xId_Partido IN NUMBER) IS
+    BEGIN
+        PK_PARTIDO.AD_ARBITRO_PARTIDO(xId_Persona, xId_Partido);
+    END;
+
+    PROCEDURE CO_TORNEO (xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_TORNEO.CO_TORNEO(xCursor);
+    END;
+
+    PROCEDURE CO_ESTADIO (xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_ESTADIO.CO_ESTADIO(xCursor);
+    END;
+
+    PROCEDURE CO_PATROCINADOR (xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_PATROCINADOR.CO_PATROCINADOR(xCursor);
+    END;
+
+    PROCEDURE CO_INSCRIPCION (xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_INSCRIPCION.CO_INSCRIPCION(xCursor);
+    END;
+
+    PROCEDURE CO_ARBITRO (xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_PARTIDO.CO_ARBITRO(xCursor);
+    END;
+
+    PROCEDURE CO_FASE (xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_TORNEO.CO_FASE(xCursor);
+    END;
+
+    PROCEDURE CO_INSCRIPCION_TORNEO (xId_Torneo IN NUMBER, xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_INSCRIPCION.CO_INSCRIPCION_TORNEO(xId_Torneo, xCursor);
+    END;
+
+    PROCEDURE CO_PARTIDO_FASE (xId_Torneo IN NUMBER, xNombre_fase IN VARCHAR2, xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_PARTIDO.CO_PARTIDO_FASE(xId_Torneo, xNombre_fase, xCursor);
+    END;
+
+    PROCEDURE CO_TORNEO_ESTADO (xEstado IN VARCHAR2, xCursor OUT SYS_REFCURSOR) IS 
+    BEGIN
+        PK_TORNEO.CO_TORNEO_ESTADO(xEstado, xCursor);
+    END;
+
+    PROCEDURE CO_FASE_TORNEO (xId_Torneo IN NUMBER, xCursor OUT SYS_REFCURSOR) IS   
+    BEGIN
+        PK_TORNEO.CO_FASE_TORNEO(xId_Torneo, xCursor);
+    END;
+
+    PROCEDURE CO_REPRESENTANTE_EQUIPO (xId_Equipo IN NUMBER, xCursor OUT SYS_REFCURSOR) IS 
+    BEGIN
+        PK_EQUIPO.CO_REPRESENTANTE_EQUIPO(xId_Equipo, xCursor);
+    END;
+
+    PROCEDURE CO_TABLA_POSICIONES (xId_Torneo IN NUMBER, xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_ESTADISTICA_EQUIPO.CO_TABLA_POSICIONES(xId_Torneo, xCursor);
+    END;
+
+    PROCEDURE CO_ESTADO_PARTIDOS (xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_PARTIDO.CO_ESTADO_PARTIDOS(xCursor);
+    END;
+
+END PA_ORGANIZADOR_TORNEO;
+/
+
+
+-- PA_REPRESENTANTE_EQUIPO
+CREATE OR REPLACE PACKAGE BODY PA_REPRESENTANTE_EQUIPO AS
+
+    PROCEDURE AD_EQUIPO (xNombre_oficial IN VARCHAR2, xEscudo_logo IN VARCHAR2, xFecha_fundacion IN DATE) IS
+    BEGIN
+        PK_EQUIPO.AD_EQUIPO(xNombre_oficial, xEscudo_logo, xFecha_fundacion);
+    END;
+
+    PROCEDURE MOD_EQUIPO (xId_Equipo IN NUMBER, xNombre_oficial IN VARCHAR2, xEscudo_logo IN VARCHAR2, xFecha_fundacion IN DATE) IS
+    BEGIN
+        PK_EQUIPO.MOD_EQUIPO(xId_Equipo, xNombre_oficial, xEscudo_logo, xFecha_fundacion);
+    END;
+
+    PROCEDURE AD_JUGADOR (xId_Persona IN NUMBER, xId_Equipo IN NUMBER, xPosicion IN VARCHAR2, xNum_camiseta IN NUMBER, xPeso IN NUMBER, xAltura IN NUMBER, xNacionalidad IN VARCHAR2) IS
+    BEGIN
+        PK_EQUIPO.AD_JUGADOR(xId_Persona, xId_Equipo, xPosicion, xNum_camiseta, xPeso, xAltura, xNacionalidad);
+    END;
+
+    PROCEDURE MOD_JUGADOR (xId_Persona IN NUMBER, xPosicion IN VARCHAR2, xNum_camiseta IN NUMBER, xPeso IN NUMBER, xAltura IN NUMBER, xNacionalidad IN VARCHAR2) IS 
+    BEGIN
+        PK_EQUIPO.MOD_JUGADOR(xId_Persona, xPosicion, xNum_camiseta, xPeso, xAltura, xNacionalidad);
+    END;
+
+    PROCEDURE AD_TECNICO (xId_Persona IN NUMBER, xId_Equipo IN NUMBER, xRol IN VARCHAR2) IS
+    BEGIN
+        PK_EQUIPO.AD_TECNICO(xId_Persona, xId_Equipo, xRol);
+    END;
+
+    PROCEDURE MOD_TECNICO (xId_Persona IN NUMBER, xRol IN VARCHAR2) IS
+    BEGIN
+        PK_EQUIPO.MOD_TECNICO(xId_Persona, xRol);
+    END;
+
+    PROCEDURE AD_REPRESENTANTE (xId_Persona IN NUMBER, xId_Equipo IN NUMBER, xTelefono IN VARCHAR2, xCorreo IN VARCHAR2, xCargo IN VARCHAR2) IS
+    BEGIN
+        PK_EQUIPO.AD_REPRESENTANTE(xId_Persona, xId_Equipo, xTelefono, xCorreo, xCargo);
+    END;
+
+    PROCEDURE ELI_JUGADOR (xId_Persona IN NUMBER) IS
+    BEGIN
+        PK_EQUIPO.ELI_JUGADOR(xId_Persona);
+    END;
+
+    PROCEDURE ELI_TECNICO (xId_Persona IN NUMBER) IS
+    BEGIN
+        PK_EQUIPO.ELI_TECNICO(xId_Persona);
+    END;
+
+    PROCEDURE AD_INSCRIPCION (xId_Equipo IN NUMBER, xId_Torneo IN NUMBER, xId_Representante IN NUMBER) IS
+    BEGIN
+        PK_INSCRIPCION.AD_INSCRIPCION(xId_Equipo, xId_Torneo, xId_Representante);
+    END;
+
+    PROCEDURE ELI_INSCRIPCION (xId_Inscripcion IN NUMBER) IS
+    BEGIN
+        PK_INSCRIPCION.ELI_INSCRIPCION(xId_Inscripcion);
+    END;
+
+    PROCEDURE AD_PATROCINADOR (xNombre_empresa IN VARCHAR2, xNIT IN VARCHAR2, xTipo_aporte IN VARCHAR2) IS
+    BEGIN
+        PK_PATROCINADOR.AD_PATROCINADOR(xNombre_empresa, xNIT, xTipo_aporte);
+    END;
+
+    PROCEDURE AD_EQUIPO_PATROCINADOR (xId_Equipo IN NUMBER, xId_Patrocinador IN NUMBER) IS
+    BEGIN
+        PK_PATROCINADOR.AD_EQUIPO_PATROCINADOR(xId_Equipo, xId_Patrocinador);
+    END;
+
+    PROCEDURE CO_EQUIPO (xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_EQUIPO.CO_EQUIPO(xCursor);
+    END;
+
+    PROCEDURE CO_JUGADOR (xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_EQUIPO.CO_JUGADOR(xCursor);
+    END;
+
+    PROCEDURE CO_TECNICO (xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_EQUIPO.CO_TECNICO(xCursor);
+    END;
+
+    PROCEDURE CO_TORNEO (xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_TORNEO.CO_TORNEO(xCursor);
+    END;
+
+    PROCEDURE CO_PATROCINADOR (xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_PATROCINADOR.CO_PATROCINADOR(xCursor);
+    END;
+
+    PROCEDURE CO_JUGADOR_EQUIPO (xId_Equipo IN NUMBER, xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_EQUIPO.CO_JUGADOR_EQUIPO(xId_Equipo, xCursor);
+    END;
+
+    PROCEDURE CO_EQUIPOS_INSCRITOS (xId_Torneo IN NUMBER, xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_INSCRIPCION.CO_EQUIPOS_INSCRITOS(xId_Torneo, xCursor);
+    END;
+
+    PROCEDURE CO_TABLA_POSICIONES (xId_Torneo IN NUMBER, xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_ESTADISTICA_EQUIPO.CO_TABLA_POSICIONES(xId_Torneo, xCursor);
+    END;
+
+END PA_REPRESENTANTE_EQUIPO;
+/
+
+
+-- PA_TECNICO
+CREATE OR REPLACE PACKAGE BODY PA_TECNICO AS
+
+    PROCEDURE CO_JUGADOR_EQUIPO (xId_Equipo IN NUMBER, xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_EQUIPO.CO_JUGADOR_EQUIPO(xId_Equipo, xCursor);
+    END;
+
+    PROCEDURE CO_PARTIDO_FASE (xId_Torneo IN NUMBER, xNombre_fase IN VARCHAR2, xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_PARTIDO.CO_PARTIDO_FASE(xId_Torneo, xNombre_fase, xCursor);
+    END;
+
+    PROCEDURE CO_ESTADIO_PARTIDOS (xCursor OUT SYS_REFCURSOR) IS 
+    BEGIN
+        PK_ESTADIO.CO_ESTADIO_PARTIDOS(xCursor);
+    END;
+
+    PROCEDURE CO_PARTIDOS_EQUIPO (xId_Equipo IN NUMBER, xCursor OUT SYS_REFCURSOR) IS 
+    BEGIN
+        PK_PARTIDO.CO_PARTIDOS_EQUIPO(xId_Equipo, xCursor);
+    END;
+
+    PROCEDURE CO_TABLA_POSICIONES (xId_Torneo IN NUMBER, xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_ESTADISTICA_EQUIPO.CO_TABLA_POSICIONES(xId_Torneo, xCursor);
+    END;
+
+END PA_TECNICO;
+/
+
+
+-- PA_ARBITRO
+CREATE OR REPLACE PACKAGE BODY PA_ARBITRO AS
+
+    PROCEDURE MOD_PARTIDO (xId_Partido IN NUMBER, xFecha_hora IN DATE, xEstado IN VARCHAR2, xGoles_local IN NUMBER, xGoles_visitante IN NUMBER) IS
+    BEGIN
+        PK_PARTIDO.MOD_PARTIDO(xId_Partido, xFecha_hora, xEstado, xGoles_local, xGoles_visitante);
+    END;
+
+    PROCEDURE CO_PARTIDO (xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_PARTIDO.CO_PARTIDO(xCursor);
+    END;
+
+    PROCEDURE CO_ARBITRO_PARTIDOS (xId_Persona IN NUMBER, xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_PARTIDO.CO_ARBITRO_PARTIDOS(xId_Persona, xCursor);
+    END;
+
+END PA_ARBITRO;
+/
+
+
+-- PA_PUBLICO_GENERAL
+CREATE OR REPLACE PACKAGE BODY PA_PUBLICO_GENERAL AS
+
+    PROCEDURE CO_TORNEO (xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_TORNEO.CO_TORNEO(xCursor);
+    END;
+
+    PROCEDURE CO_PARTIDO (xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_PARTIDO.CO_PARTIDO(xCursor);
+    END;
+
+    PROCEDURE CO_EQUIPO_NOMBRE (xNombre IN VARCHAR2, xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_EQUIPO.CO_EQUIPO_NOMBRE(xNombre, xCursor);
+    END;
+
+    PROCEDURE CO_TORNEO_ESTADO (xEstado IN VARCHAR2, xCursor OUT SYS_REFCURSOR) IS 
+    BEGIN
+        PK_TORNEO.CO_TORNEO_ESTADO(xEstado, xCursor);
+    END;
+
+    PROCEDURE CO_FASE_TORNEO (xId_Torneo IN NUMBER, xCursor OUT SYS_REFCURSOR) IS  
+    BEGIN
+        PK_TORNEO.CO_FASE_TORNEO(xId_Torneo, xCursor);
+    END;
+
+    PROCEDURE CO_TABLA_POSICIONES (xId_Torneo IN NUMBER, xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_ESTADISTICA_EQUIPO.CO_TABLA_POSICIONES(xId_Torneo, xCursor);
+    END;
+
+    PROCEDURE CO_ESTADO_PARTIDOS (xCursor OUT SYS_REFCURSOR) IS
+    BEGIN
+        PK_PARTIDO.CO_ESTADO_PARTIDOS(xCursor);
+    END;
+
+END PA_PUBLICO_GENERAL;
+/
